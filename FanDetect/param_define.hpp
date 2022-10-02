@@ -1,6 +1,7 @@
-#include<iostream>
+#include <iostream>
 
-struct WindmillParam{
+struct WindmillParam
+{
     int RED_GRAY_THRESH;
     int BLUE_GRAY_THRESH;
 
@@ -15,6 +16,7 @@ struct WindmillParam{
     float flow_area_ratio_min;
 };
 
-struct McuData {
-
+struct McuData
+{
+    uint8_t enemy_color; // char
 };

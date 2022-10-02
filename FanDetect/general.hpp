@@ -19,18 +19,28 @@ class General
     ~General();
 
 public:
+    void run(Mat &src);
+
 private:
     WindmillParam wm_data;
     McuData mcu_data;
 
-    void initEnergy();//能量机关初始化
-    void initEnergyParam();//能量机关参数初始化
+    bool show_img;
+    bool show_process;
+    bool show_wrong;
+    bool show_data;
 
+    void initEnergy();      //能量机关初始化
+    void initEnergyParam(); //能量机关参数初始化
+    void clearAll();
+    void initImage(Mat &src);
 
     int findArmors();
     int findFans(const Mat &src); //引用传递，str不能被修改，而且也不会调用拷贝构造函数
     void fanDilate(Mat &src);
     bool isValidFanContour(Mat &src, const vector<Point> &fanContours);
+
+    void showFans(string windows_name, const Mat &src);
 
     vector<RotatedRect> fans;
     int last_fans_cnt;

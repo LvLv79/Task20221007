@@ -37,7 +37,7 @@ bool General::isValidFanContour(Mat &src, const vector<Point> &fanContours)
         return false;
         //选区面积大小不合适
     }
-    RotatedRect cur_rect = minAreaRect(fanContours);//最小外接矩形（旋转矩形）
+    RotatedRect cur_rect = minAreaRect(fanContours); //最小外接矩形（旋转矩形）
     Size2f cur_size = cur_rect.size;
     float length = cur_size.height > cur_size.width ? cur_size.height : cur_size.width;
     float width = cur_size.height > cur_size.width ? cur_size.width : cur_size.height;
@@ -60,20 +60,27 @@ bool General::isValidFanContour(Mat &src, const vector<Point> &fanContours)
     return true;
 }
 
-void General::showFans(string windows_name,const Mat& src){
-    if(src.empty())return;
-    static Mat image2show;//static??????
-    if(src.type()==CV_8UC1)//black and white
+void General::showFans(string windows_name, const Mat &src)
+{
+    if (src.empty())
+        return;
+    static Mat image2show;     // static??????
+    if (src.type() == CV_8UC1) // black and white
     {
-        cvtColor(src,image2show,COLOR_GRAY2RGB);
+        cvtColor(src, image2show, COLOR_GRAY2RGB);
     }
-    else if(src.type()==CV_8UC3)
+    else if (src.type() == CV_8UC3)
     {
-        image2show=src.clone();
+        image2show = src.clone();
     }
-    for(const auto& fan : fans){
+    for (const auto &fan : fans)
+    {
         Point2f verticles[4];
         fan.points(verticles);
-        for()
+        for (int i = 0; i < 4; i++)
+        {
+            line(image2show, verticles[i], verticles[(i + 1) % 4], Scalar(255, 0, 0), 2); // according to rotatedRect's rule
+        }
     }
+    imshow(windows_name, image2show);
 }

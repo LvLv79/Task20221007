@@ -7,6 +7,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/fanDetect.dir/fanDetect.cpp.o.d"
   "CMakeFiles/fanDetect.dir/main.cpp.o"
   "CMakeFiles/fanDetect.dir/main.cpp.o.d"
+  "CMakeFiles/fanDetect.dir/run.cpp.o"
+  "CMakeFiles/fanDetect.dir/run.cpp.o.d"
   "fanDetect"
   "fanDetect.pdb"
 )

@@ -225,6 +225,30 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/fanDetect.dir/build.make CMakeFiles/fanDetect.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+run.o: run.cpp.o
+.PHONY : run.o
+
+# target to build an object file
+run.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fanDetect.dir/build.make CMakeFiles/fanDetect.dir/run.cpp.o
+.PHONY : run.cpp.o
+
+run.i: run.cpp.i
+.PHONY : run.i
+
+# target to preprocess a source file
+run.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fanDetect.dir/build.make CMakeFiles/fanDetect.dir/run.cpp.i
+.PHONY : run.cpp.i
+
+run.s: run.cpp.s
+.PHONY : run.s
+
+# target to generate assembly for a file
+run.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fanDetect.dir/build.make CMakeFiles/fanDetect.dir/run.cpp.s
+.PHONY : run.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -246,6 +270,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... run.o"
+	@echo "... run.i"
+	@echo "... run.s"
 .PHONY : help
 
 

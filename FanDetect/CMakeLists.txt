@@ -7,6 +7,7 @@ add_executable(${PROJECT_NAME}
     param_define.hpp
     fanDetect.cpp
     Dilate.cpp
+    run.cpp
     Init.cpp
     main.cpp
 )
