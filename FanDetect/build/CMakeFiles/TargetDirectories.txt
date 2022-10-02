@@ -1,0 +1,3 @@
+/home/lvlv/Desktop/Task20221007/FanDetect/build/CMakeFiles/fanDetect.dir
+/home/lvlv/Desktop/Task20221007/FanDetect/build/CMakeFiles/edit_cache.dir
+/home/lvlv/Desktop/Task20221007/FanDetect/build/CMakeFiles/rebuild_cache.dir
