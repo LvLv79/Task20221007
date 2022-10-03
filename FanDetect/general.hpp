@@ -15,11 +15,11 @@ using namespace cv;
 
 class General
 {
-    General();
-    ~General();
 
 public:
     void run(Mat &src);
+    General();
+    ~General();
 
 private:
     WindmillParam wm_data;
@@ -35,14 +35,19 @@ private:
     void clearAll();
     void initImage(Mat &src);
 
-    int findArmors();
+    int findArmors(const Mat&src);
     int findFans(const Mat &src); //引用传递，str不能被修改，而且也不会调用拷贝构造函数
+    void ArmorDilate(Mat&src);
     void fanDilate(Mat &src);
+    bool isValidArmorContour(const vector<Point>&armor_contour);
     bool isValidFanContour(Mat &src, const vector<Point> &fanContours);
 
     void showFans(string windows_name, const Mat &src);
+    void showArmors(string windows_name, const Mat& src);
 
     vector<RotatedRect> fans;
+    vector<RotatedRect>armors;
+    int fans_cnt;
     int last_fans_cnt;
 };
 

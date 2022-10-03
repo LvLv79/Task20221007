@@ -20,6 +20,10 @@ int General::findFans(const Mat &src)
     for (auto &fanContour : fanContours)
     {
         // a function used to judge proper contours
+        if (!isValidFanContour(src_bin, fanContour))
+        {
+            continue;
+        }
         fans.emplace_back(minAreaRect(fanContours));
     }
     if (fans.size() < last_fans_cnt)

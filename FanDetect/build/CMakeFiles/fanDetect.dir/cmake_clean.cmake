@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/fanDetect.dir/Dilate.cpp.o.d"
   "CMakeFiles/fanDetect.dir/Init.cpp.o"
   "CMakeFiles/fanDetect.dir/Init.cpp.o.d"
+  "CMakeFiles/fanDetect.dir/armor.cpp.o"
+  "CMakeFiles/fanDetect.dir/armor.cpp.o.d"
   "CMakeFiles/fanDetect.dir/fanDetect.cpp.o"
   "CMakeFiles/fanDetect.dir/fanDetect.cpp.o.d"
   "CMakeFiles/fanDetect.dir/main.cpp.o"

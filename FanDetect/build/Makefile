@@ -177,6 +177,30 @@ Init.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/fanDetect.dir/build.make CMakeFiles/fanDetect.dir/Init.cpp.s
 .PHONY : Init.cpp.s
 
+armor.o: armor.cpp.o
+.PHONY : armor.o
+
+# target to build an object file
+armor.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fanDetect.dir/build.make CMakeFiles/fanDetect.dir/armor.cpp.o
+.PHONY : armor.cpp.o
+
+armor.i: armor.cpp.i
+.PHONY : armor.i
+
+# target to preprocess a source file
+armor.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fanDetect.dir/build.make CMakeFiles/fanDetect.dir/armor.cpp.i
+.PHONY : armor.cpp.i
+
+armor.s: armor.cpp.s
+.PHONY : armor.s
+
+# target to generate assembly for a file
+armor.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fanDetect.dir/build.make CMakeFiles/fanDetect.dir/armor.cpp.s
+.PHONY : armor.cpp.s
+
 fanDetect.o: fanDetect.cpp.o
 .PHONY : fanDetect.o
 
@@ -264,6 +288,9 @@ help:
 	@echo "... Init.o"
 	@echo "... Init.i"
 	@echo "... Init.s"
+	@echo "... armor.o"
+	@echo "... armor.i"
+	@echo "... armor.s"
 	@echo "... fanDetect.o"
 	@echo "... fanDetect.i"
 	@echo "... fanDetect.s"

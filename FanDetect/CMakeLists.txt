@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.5)
 
 project(fanDetect CXX)
 
+find_package(OpenCV REQUIRED)
+
 add_executable(${PROJECT_NAME}
     general.hpp
     param_define.hpp
@@ -9,9 +11,9 @@ add_executable(${PROJECT_NAME}
     Dilate.cpp
     run.cpp
     Init.cpp
+    armor.cpp
     main.cpp
 )
-find_package(OpenCV REQUIRED)
 
 target_include_directories(${PROJECT_NAME} 
     PUBLIC ${OpenCV_INCLUDE_DIRS})

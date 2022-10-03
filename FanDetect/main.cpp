@@ -2,6 +2,15 @@
 
 int main()
 {
-    string imgpath = "../1920.png"; 
-    return 0;
+    General G;
+    Mat src;
+    string path = "../energy.avi";
+    VideoCapture cap(path);
+    while(cap.read(src))
+    {
+        imshow("original", src);
+        waitKey(20);
+        G.run(src);
+    }
+    return 1;
 }
