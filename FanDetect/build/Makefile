@@ -225,6 +225,30 @@ fanDetect.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/fanDetect.dir/build.make CMakeFiles/fanDetect.dir/fanDetect.cpp.s
 .PHONY : fanDetect.cpp.s
 
+flowStripFan.o: flowStripFan.cpp.o
+.PHONY : flowStripFan.o
+
+# target to build an object file
+flowStripFan.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fanDetect.dir/build.make CMakeFiles/fanDetect.dir/flowStripFan.cpp.o
+.PHONY : flowStripFan.cpp.o
+
+flowStripFan.i: flowStripFan.cpp.i
+.PHONY : flowStripFan.i
+
+# target to preprocess a source file
+flowStripFan.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fanDetect.dir/build.make CMakeFiles/fanDetect.dir/flowStripFan.cpp.i
+.PHONY : flowStripFan.cpp.i
+
+flowStripFan.s: flowStripFan.cpp.s
+.PHONY : flowStripFan.s
+
+# target to generate assembly for a file
+flowStripFan.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fanDetect.dir/build.make CMakeFiles/fanDetect.dir/flowStripFan.cpp.s
+.PHONY : flowStripFan.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -273,6 +297,30 @@ run.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/fanDetect.dir/build.make CMakeFiles/fanDetect.dir/run.cpp.s
 .PHONY : run.cpp.s
 
+tool.o: tool.cpp.o
+.PHONY : tool.o
+
+# target to build an object file
+tool.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fanDetect.dir/build.make CMakeFiles/fanDetect.dir/tool.cpp.o
+.PHONY : tool.cpp.o
+
+tool.i: tool.cpp.i
+.PHONY : tool.i
+
+# target to preprocess a source file
+tool.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fanDetect.dir/build.make CMakeFiles/fanDetect.dir/tool.cpp.i
+.PHONY : tool.cpp.i
+
+tool.s: tool.cpp.s
+.PHONY : tool.s
+
+# target to generate assembly for a file
+tool.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fanDetect.dir/build.make CMakeFiles/fanDetect.dir/tool.cpp.s
+.PHONY : tool.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -294,12 +342,18 @@ help:
 	@echo "... fanDetect.o"
 	@echo "... fanDetect.i"
 	@echo "... fanDetect.s"
+	@echo "... flowStripFan.o"
+	@echo "... flowStripFan.i"
+	@echo "... flowStripFan.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
 	@echo "... run.o"
 	@echo "... run.i"
 	@echo "... run.s"
+	@echo "... tool.o"
+	@echo "... tool.i"
+	@echo "... tool.s"
 .PHONY : help
 
 

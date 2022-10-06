@@ -139,10 +139,38 @@ CMakeFiles/fanDetect.dir/armor.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/fanDetect.dir/armor.cpp.s"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lvlv/Desktop/Task20221007/FanDetect/armor.cpp -o CMakeFiles/fanDetect.dir/armor.cpp.s
 
+CMakeFiles/fanDetect.dir/flowStripFan.cpp.o: CMakeFiles/fanDetect.dir/flags.make
+CMakeFiles/fanDetect.dir/flowStripFan.cpp.o: ../flowStripFan.cpp
+CMakeFiles/fanDetect.dir/flowStripFan.cpp.o: CMakeFiles/fanDetect.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lvlv/Desktop/Task20221007/FanDetect/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/fanDetect.dir/flowStripFan.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fanDetect.dir/flowStripFan.cpp.o -MF CMakeFiles/fanDetect.dir/flowStripFan.cpp.o.d -o CMakeFiles/fanDetect.dir/flowStripFan.cpp.o -c /home/lvlv/Desktop/Task20221007/FanDetect/flowStripFan.cpp
+
+CMakeFiles/fanDetect.dir/flowStripFan.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/fanDetect.dir/flowStripFan.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lvlv/Desktop/Task20221007/FanDetect/flowStripFan.cpp > CMakeFiles/fanDetect.dir/flowStripFan.cpp.i
+
+CMakeFiles/fanDetect.dir/flowStripFan.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/fanDetect.dir/flowStripFan.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lvlv/Desktop/Task20221007/FanDetect/flowStripFan.cpp -o CMakeFiles/fanDetect.dir/flowStripFan.cpp.s
+
+CMakeFiles/fanDetect.dir/tool.cpp.o: CMakeFiles/fanDetect.dir/flags.make
+CMakeFiles/fanDetect.dir/tool.cpp.o: ../tool.cpp
+CMakeFiles/fanDetect.dir/tool.cpp.o: CMakeFiles/fanDetect.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lvlv/Desktop/Task20221007/FanDetect/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/fanDetect.dir/tool.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fanDetect.dir/tool.cpp.o -MF CMakeFiles/fanDetect.dir/tool.cpp.o.d -o CMakeFiles/fanDetect.dir/tool.cpp.o -c /home/lvlv/Desktop/Task20221007/FanDetect/tool.cpp
+
+CMakeFiles/fanDetect.dir/tool.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/fanDetect.dir/tool.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lvlv/Desktop/Task20221007/FanDetect/tool.cpp > CMakeFiles/fanDetect.dir/tool.cpp.i
+
+CMakeFiles/fanDetect.dir/tool.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/fanDetect.dir/tool.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lvlv/Desktop/Task20221007/FanDetect/tool.cpp -o CMakeFiles/fanDetect.dir/tool.cpp.s
+
 CMakeFiles/fanDetect.dir/main.cpp.o: CMakeFiles/fanDetect.dir/flags.make
 CMakeFiles/fanDetect.dir/main.cpp.o: ../main.cpp
 CMakeFiles/fanDetect.dir/main.cpp.o: CMakeFiles/fanDetect.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lvlv/Desktop/Task20221007/FanDetect/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/fanDetect.dir/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lvlv/Desktop/Task20221007/FanDetect/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/fanDetect.dir/main.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fanDetect.dir/main.cpp.o -MF CMakeFiles/fanDetect.dir/main.cpp.o.d -o CMakeFiles/fanDetect.dir/main.cpp.o -c /home/lvlv/Desktop/Task20221007/FanDetect/main.cpp
 
 CMakeFiles/fanDetect.dir/main.cpp.i: cmake_force
@@ -160,6 +188,8 @@ fanDetect_OBJECTS = \
 "CMakeFiles/fanDetect.dir/run.cpp.o" \
 "CMakeFiles/fanDetect.dir/Init.cpp.o" \
 "CMakeFiles/fanDetect.dir/armor.cpp.o" \
+"CMakeFiles/fanDetect.dir/flowStripFan.cpp.o" \
+"CMakeFiles/fanDetect.dir/tool.cpp.o" \
 "CMakeFiles/fanDetect.dir/main.cpp.o"
 
 # External object files for target fanDetect
@@ -170,6 +200,8 @@ fanDetect: CMakeFiles/fanDetect.dir/Dilate.cpp.o
 fanDetect: CMakeFiles/fanDetect.dir/run.cpp.o
 fanDetect: CMakeFiles/fanDetect.dir/Init.cpp.o
 fanDetect: CMakeFiles/fanDetect.dir/armor.cpp.o
+fanDetect: CMakeFiles/fanDetect.dir/flowStripFan.cpp.o
+fanDetect: CMakeFiles/fanDetect.dir/tool.cpp.o
 fanDetect: CMakeFiles/fanDetect.dir/main.cpp.o
 fanDetect: CMakeFiles/fanDetect.dir/build.make
 fanDetect: /usr/local/lib/libopencv_gapi.so.4.6.0
@@ -188,7 +220,7 @@ fanDetect: /usr/local/lib/libopencv_flann.so.4.6.0
 fanDetect: /usr/local/lib/libopencv_imgproc.so.4.6.0
 fanDetect: /usr/local/lib/libopencv_core.so.4.6.0
 fanDetect: CMakeFiles/fanDetect.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/lvlv/Desktop/Task20221007/FanDetect/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable fanDetect"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/lvlv/Desktop/Task20221007/FanDetect/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable fanDetect"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/fanDetect.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

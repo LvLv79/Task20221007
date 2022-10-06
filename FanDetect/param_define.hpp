@@ -15,6 +15,31 @@ struct WindmillParam
     float armor_contour_hw_ratio_min;
 
 
+    float flow_strip_fan_contour_area_max;
+    float flow_strip_fan_contour_area_min;
+    float flow_strip_fan_contour_length_max;
+    float flow_strip_fan_contour_length_min;
+    float flow_strip_fan_contour_width_max;
+    float flow_strip_fan_contour_width_min;
+    float flow_strip_fan_contour_hw_ratio_max;
+    float flow_strip_fan_contour_hw_ratio_min;
+    float flow_strip_fan_contour_area_ratio_max;
+    float flow_strip_fan_contour_area_ratio_min;
+
+    float flow_strip_contour_area_max;
+	float flow_strip_contour_area_min;
+	float flow_strip_contour_length_max;
+	float flow_strip_contour_length_min;
+	float flow_strip_contour_width_max;
+	float flow_strip_contour_width_min;
+	float flow_strip_contour_hw_ratio_max;
+	float flow_strip_contour_hw_ratio_min;
+	float flow_strip_contour_area_ratio_min;
+	float flow_strip_contour_intersection_area_min;
+
+    float Strip_Fan_Distance_max;
+    float Strip_Fan_Distance_min;
+
     float flow_area_max;
     float flow_area_min;
     float flow_length_max;

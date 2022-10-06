@@ -7,16 +7,15 @@ find_package(OpenCV REQUIRED)
 set(CMAKE_BUILD_TYPE Debug)
 
 add_executable(${PROJECT_NAME}
-    general.hpp
-    param_define.hpp
-    fanDetect.cpp
-    Dilate.cpp
-    run.cpp
-    Init.cpp
-    armor.cpp
-    flowStripFan.cpp
-    tool.cpp
+    R.cpp
+    R.hpp
     main.cpp
+    Flow.cpp
+    Flow.hpp
+    Armor.cpp
+    Armor.hpp
+    target.cpp
+    target.hpp
 )
 
 target_include_directories(${PROJECT_NAME} 

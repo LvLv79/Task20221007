@@ -81,12 +81,12 @@ clean: CMakeFiles/fanDetect.dir/clean
 CMakeFiles/fanDetect.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/fanDetect.dir/build.make CMakeFiles/fanDetect.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/fanDetect.dir/build.make CMakeFiles/fanDetect.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/lvlv/Desktop/Task20221007/FanDetect/build/CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target fanDetect"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/lvlv/Desktop/Task20221007/FanDetect/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9 "Built target fanDetect"
 .PHONY : CMakeFiles/fanDetect.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/fanDetect.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lvlv/Desktop/Task20221007/FanDetect/build/CMakeFiles 7
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lvlv/Desktop/Task20221007/FanDetect/build/CMakeFiles 9
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/fanDetect.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/lvlv/Desktop/Task20221007/FanDetect/build/CMakeFiles 0
 .PHONY : CMakeFiles/fanDetect.dir/rule

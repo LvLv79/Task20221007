@@ -19,7 +19,7 @@ class General
 public:
     void run(Mat &src);
     General();
-    ~General();
+    ~General() = default;
 
 private:
     WindmillParam wm_data;
@@ -35,18 +35,37 @@ private:
     void clearAll();
     void initImage(Mat &src);
 
-    int findArmors(const Mat&src);
+    bool findFlowStripFan(const Mat &src);
+    void Practice(Mat &src);
+    int findArmors(const Mat &src);
     int findFans(const Mat &src); //引用传递，str不能被修改，而且也不会调用拷贝构造函数
-    void ArmorDilate(Mat&src);
+    void ArmorDilate(Mat &src);
     void fanDilate(Mat &src);
-    bool isValidArmorContour(const vector<Point>&armor_contour);
+    void FlowStripDilate(cv::Mat &src);
+    void FlowStripFanDilate(Mat &src);
+    bool findFlowStripWeak(const Mat &src);
+    bool isValidArmorContour(const vector<Point> &armor_contour);
     bool isValidFanContour(Mat &src, const vector<Point> &fanContours);
+    bool isValidFlowStripContour(const vector<Point> &flow_strip_contour);
+    bool isValidFlowStripFanContour(Mat &src, const vector<Point> &flow_strip_fan_contour);
 
     void showFans(string windows_name, const Mat &src);
-    void showArmors(string windows_name, const Mat& src);
+    void showArmors(string windows_name, const Mat &src);
+    void showFlowStripFan(string windows_name, const Mat& src);
+
+    double pointDistance(cv::Point point_1, cv::Point point_2);
+
+    RotatedRect flow_strip_fan;
+    RotatedRect flow_strip;
+    RotatedRect target_armor;
+
+    Point circle_center_point;
+    Point target_point;
 
     vector<RotatedRect> fans;
-    vector<RotatedRect>armors;
+    vector<RotatedRect> armors;
+    vector<RotatedRect> flow_strip_fans;
+    vector<RotatedRect> flow_strips;
     int fans_cnt;
     int last_fans_cnt;
 };
