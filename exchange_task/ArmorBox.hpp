@@ -25,6 +25,8 @@ public:
     int sort_points(vector<RotatedRect> exchange_contours);
     void getMaxOrMin(float*arr,int count,bool isMax);
     void getOther(vector<RotatedRect> exchange_contours);
+    void draw(const Mat &src);
+    void run(vector<RotatedRect> exchange_contours,const Mat &src);
 
 public:
     int tl_index;
@@ -38,14 +40,10 @@ public:
     Point2f bl;
     Point2f tr;
     Point2f br;
-    vector<Rect_Points> R_points;
-    // vector<float> points_x;
     float points_x[4];
     float points_y[4];
     float points_sum[4];
-    //vector<float> points_y;
-    //vector<float> points_sum;
-    vector<float> Rect_points;
+    vector<Point> Rect_points;
 };
 
 #endif

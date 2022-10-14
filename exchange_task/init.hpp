@@ -17,7 +17,7 @@ class init
 public:
     void initImage(Mat &src);
 
-    void Solve(RotatedRect Armor);
+    void Solve(vector<Point>Rect_points);
     float x_pitch;
     float y_yaw;
 
@@ -26,7 +26,7 @@ private:
     Mat distCoeffs = cv::Mat::zeros(5, 1, CV_64F);
     vector<Point2f> POINTS_2D;
     vector<Point3f> POINTS_3D;
-    vector<Point2f> setImagePoints(vector<Point>centers);
+    vector<Point2f> setImagePoints(vector<Point>Rect_points);
     vector<Point3f> setObjectPoints(double width, double height);
     float target_height = 288;
     float target_width = 288;

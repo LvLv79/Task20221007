@@ -17,8 +17,11 @@ class Exchange
 public:
     vector<RotatedRect> exchange_rect;
     vector<RotatedRect> exchange_contours;
+    vector<Point> R_Points;
     vector<Point> center;
     Point2f exchange_rect_point;
+    float Cornercontour_area_max=200;
+    float Cornercontour_area_min=10;
 
     int findCorner(const Mat &src);
     void Draw(const Mat &src);

@@ -29,22 +29,22 @@ int Exchange::findCorner(const Mat &src)
 }
 
 /*const Point2f Exchange::crossPointof(const Point2f& bl,const Point2f& tl,const Point2f& tr, const Point2f& br){
-	float a1 = tr.y - bl.y;
-	float b1 = tr.x - bl.x;
-	float c1 = bl.x*tr.y - tr.x*bl.y;
+    float a1 = tr.y - bl.y;
+    float b1 = tr.x - bl.x;
+    float c1 = bl.x*tr.y - tr.x*bl.y;
 
-	float a2 = br.y - tl.y;
-	float b2 = br.x - tl.x;
-	float c2 = tl.x*br.y - br.x*tl.y;
+    float a2 = br.y - tl.y;
+    float b2 = br.x - tl.x;
+    float c2 = tl.x*br.y - br.x*tl.y;
 
-	float d = a1 * b2 - a2 * b1;
+    float d = a1 * b2 - a2 * b1;
 
-	if (d == 0.0){
-		return Point2f(FLT_MAX, FLT_MAX);
-	}
-	else{
-		return cv::Point2f((b2*c1 - b1 * c2) / d, (c1*a2 - c2 * a1) / d);
-	}
+    if (d == 0.0){
+        return Point2f(FLT_MAX, FLT_MAX);
+    }
+    else{
+        return cv::Point2f((b2*c1 - b1 * c2) / d, (c1*a2 - c2 * a1) / d);
+    }
 }*/
 
 void Exchange::Dilate(Mat &src)
@@ -66,12 +66,17 @@ bool Exchange::isValidCorner(const vector<Point> Cornercontour)
     {
         return false;
     }*/
+    float cur_area = contourArea(Cornercontour);
     RotatedRect cur_rect = minAreaRect(Cornercontour);
     Size2f cur_size = cur_rect.size;
     float length = cur_size.height > cur_size.width ? cur_size.height : cur_size.width;
     float width = cur_size.height > cur_size.width ? cur_size.width : cur_size.height;
     float length_width_ratio = length / width;
     if (length_width_ratio < Cornercontour_hw_ratio_min || length_width_ratio > Cornercontour_hw_ratio_max)
+    {
+        return false;
+    }
+    if (cur_area < Cornercontour_area_min || cur_area > Cornercontour_area_max)
     {
         return false;
     }
@@ -110,8 +115,8 @@ void Exchange::Draw(const Mat &src)
         {
             line(image2show, center[i], center[(i + 1) % 4], Scalar(0, 0, 255), 2);
         }
-        imshow("Exchange", image2show);
     }
+    imshow("Exchange", image2show);
 }
 
 void Exchange::clearAll()
@@ -123,6 +128,6 @@ void Exchange::run(const Mat &src)
 {
     clearAll();
     findCorner(src);
-    Draw(src);
+    //Draw(src);
     cout << exchange_contours.size() << endl;
 }

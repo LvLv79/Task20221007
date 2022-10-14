@@ -8,12 +8,13 @@ Rect_Points::Rect_Points()
 
 int Rect_Points::sort_points(vector<RotatedRect> exchange_contours)
 {
-    if(exchange_contours.size()==0){
-       return 0;
+    if (exchange_contours.size() == 0)
+    {
+        return 0;
     }
     for (int i = 0; i < 4; i++)
     {
-        points_x[i]=exchange_contours[i].center.x;
+        points_x[i] = exchange_contours[i].center.x;
     }
 
     for (int i = 0; i < 4; i++)
@@ -27,14 +28,15 @@ int Rect_Points::sort_points(vector<RotatedRect> exchange_contours)
     }
 
     getMaxOrMin(points_sum, 4, 1);
+    getMaxOrMin(points_sum, 4, 0);
     tl = exchange_contours[tl_index].center;
     br = exchange_contours[br_index].center;
     getOther(exchange_contours);
-    cout<<"rect 4:"<<tl<<br<<bl<<tr<<endl;
+    cout << "rect 4:" << tl << tr << br << bl << endl;
     return 1;
 }
 
-void Rect_Points::getMaxOrMin(float* arr, int count, bool isMax)
+void Rect_Points::getMaxOrMin(float *arr, int count, bool isMax)
 {
     int temp = arr[0];
     int max_index = 0;
@@ -50,7 +52,7 @@ void Rect_Points::getMaxOrMin(float* arr, int count, bool isMax)
                 max_index = i;
             }
         }
-        tl_index = max_index;
+        br_index = max_index;
     }
     else
     {
@@ -62,7 +64,7 @@ void Rect_Points::getMaxOrMin(float* arr, int count, bool isMax)
                 min_index = i;
             }
         }
-        br_index = min_index;
+        tl_index = min_index;
     }
 }
 
@@ -82,17 +84,48 @@ void Rect_Points::getOther(vector<RotatedRect> exchange_contours)
     Vec3f a2b_2 = {tempPoints[1].x - tl.x, tempPoints[1].y - tl.y, 0};
 
     Vec3f result = a2b_2.cross(a2b_1);
-    if(result[2]<0){
-        tr=tempPoints[0];
-        bl=tempPoints[1];
-
+    if (result[2] < 0)
+    {
+        tr = tempPoints[0];
+        bl = tempPoints[1];
     }
-    else{
-        tr=tempPoints[1];
-        bl=tempPoints[0];
+    else
+    {
+        tr = tempPoints[1];
+        bl = tempPoints[0];
     }
-
+    Rect_points.emplace_back(tl);
+    Rect_points.emplace_back(tr);
+    Rect_points.emplace_back(br);
+    Rect_points.emplace_back(bl);
     // vector 2 points to judge;
+}
+
+void Rect_Points::draw(const Mat &src)
+{
+    if (src.empty())
+        return;
+    static Mat image2show;
+
+    if (src.type() == CV_8UC1) // 黑白图像
+    {
+        cvtColor(src, image2show, COLOR_GRAY2RGB);
+    }
+    else if (src.type() == CV_8UC3) // RGB 彩色
+    {
+        image2show = src.clone();
+    }
+    line(image2show, tl, tr, Scalar(0, 0, 255), 2);
+    line(image2show, tr, br, Scalar(0, 0, 255), 2);
+    line(image2show, br, bl, Scalar(0, 0, 255), 2);
+    line(image2show, tl, bl, Scalar(0, 0, 255), 2);
+    imshow("Exchange", image2show);
+}
+
+void Rect_Points::run(vector<RotatedRect> exchange_contours, const Mat &src)
+{
+    sort_points(exchange_contours);
+    draw(src);
 }
 
 Rect_Points::~Rect_Points() {}

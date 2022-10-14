@@ -14,13 +14,10 @@ int main(){
         imshow("original", src);
         waitKey(100);
         Mat info_img = src.clone();
-        // static Mat src_armor=src.clone();
-        //namedWindow("二值化");
-        //createTrackbar("e and d","init",0,10,)
         Init.initImage(src);
         Rect.run(src);
-        RB.sort_points(Rect.exchange_contours);
-        //imshow("init",src);
+        RB.run(Rect.exchange_contours,src);
+        Init.Solve(RB.Rect_points);
     }
     return 1;
 }
