@@ -17,7 +17,6 @@ int main(){
         Init.initImage(src);
         Rect.run(src);
         RB.run(Rect.exchange_contours,src);
-        Init.Solve(RB.Rect_points);
     }
     return 1;
 }

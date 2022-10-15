@@ -6,6 +6,23 @@ Rect_Points::Rect_Points()
     point_y = 0;
 }
 
+void Rect_Points::Camera_init()
+{
+    cameraMatrix.at<double>(0, 0) = 5.9763827661155904e+02;
+    cameraMatrix.at<double>(0, 1) = 0;
+    cameraMatrix.at<double>(0, 2) = 4.1575511901601089e+02;
+    cameraMatrix.at<double>(1, 1) = 5.9922205940008985e+02;
+    cameraMatrix.at<double>(1, 2) = 2.6769310598084320e+02;
+
+    distCoeffs.at<double>(0, 0) = 5.9365728086275861e-02;
+    distCoeffs.at<double>(1, 0) = 6.3271114889939875e-02;
+    distCoeffs.at<double>(2, 0) = 5.5006940318826766e-03;
+    distCoeffs.at<double>(3, 0) = -3.5032524991503678e-03;
+    distCoeffs.at<double>(4, 0) = 0;
+
+    return;
+}
+
 int Rect_Points::sort_points(vector<RotatedRect> exchange_contours)
 {
     if (exchange_contours.size() == 0)
@@ -101,6 +118,79 @@ void Rect_Points::getOther(vector<RotatedRect> exchange_contours)
     // vector 2 points to judge;
 }
 
+const Point2f Rect_Points::crossPointof(const Point2f &bl, const Point2f &tl, const Point2f &tr, const Point2f &br)
+{
+    float a1 = tr.y - bl.y;
+    float b1 = tr.x - bl.x;
+    float c1 = bl.x * tr.y - tr.x * bl.y;
+
+    float a2 = br.y - tl.y;
+    float b2 = br.x - tl.x;
+    float c2 = tl.x * br.y - br.x * tl.y;
+
+    float d = a1 * b2 - a2 * b1;
+
+    if (d == 0.0)
+    {
+        return Point2f(FLT_MAX, FLT_MAX);
+    }
+    else
+    {
+        return Point2f((b2 * c1 - b1 * c2) / d, (c1 * a2 - c2 * a1) / d);
+    }
+}
+
+vector<Point3f> Rect_Points::setObjectPoints(double width, double height)
+{
+    double half_x = width / 2.0;
+    double half_y = height / 2.0;
+    POINTS_3D.push_back(Point3f(-half_x, half_y, 0));  // tl top left
+    POINTS_3D.push_back(Point3f(half_x, half_y, 0));   // tr top right
+    POINTS_3D.push_back(Point3f(half_x, -half_y, 0));  // br below right
+    POINTS_3D.push_back(Point3f(-half_x, -half_y, 0)); // bl below left
+
+    return POINTS_3D;
+}
+
+vector<Point2f> Rect_Points::setImagePoints(vector<Point> Rect_points)
+{
+
+    POINTS_2D.emplace_back(Rect_points[1]);
+    POINTS_2D.emplace_back(Rect_points[2]);
+    POINTS_2D.emplace_back(Rect_points[3]);
+    POINTS_2D.emplace_back(Rect_points[0]);
+    return POINTS_2D;
+}
+
+void Rect_Points::Solve(vector<Point> Rect_points)
+{
+    Camera_init();
+
+    setImagePoints(Rect_points);
+    setObjectPoints(target_width, target_height);
+
+    Mat _rvec, tVec, _rmat;
+    solvePnP(POINTS_3D, POINTS_2D, cameraMatrix, distCoeffs, _rvec, tVec, false, SOLVEPNP_ITERATIVE);
+    double x_pos = *_rvec.ptr(0);
+    double y_pos = *_rvec.ptr(1);
+    double z_pos = *_rvec.ptr(2);
+    tVec_x = *tVec.ptr(0);
+    tVec_y = *tVec.ptr(1);
+    tVec_z = *tVec.ptr(2);
+
+    Rodrigues(_rvec, _rmat);
+    _rmat.convertTo(_rmat, CV_64FC1);
+    tVec.convertTo(tVec, CV_64FC1);
+
+    double tan_pitch = y_pos / sqrt(x_pos * x_pos + z_pos * z_pos);
+    double tan_yaw = x_pos / z_pos;
+    x_pitch = -atanf(tan_pitch) * 180.f / CV_PI;
+    y_yaw = atanf(tan_yaw) * 180.f / CV_PI;
+    float distance = sqrt(tVec_x * tVec_x + tVec_y * tVec_y + tVec_z * tVec_z);
+    cout << "y_yaw:" << y_yaw << endl;
+    cout << "x_pitch:" << x_pitch << endl;
+}
+
 void Rect_Points::draw(const Mat &src)
 {
     if (src.empty())
@@ -119,12 +209,19 @@ void Rect_Points::draw(const Mat &src)
     line(image2show, tr, br, Scalar(0, 0, 255), 2);
     line(image2show, br, bl, Scalar(0, 0, 255), 2);
     line(image2show, tl, bl, Scalar(0, 0, 255), 2);
+    circle(image2show, rect_center, 2, Scalar(0, 255, 0), 2, 8, 0);
+    putText(image2show, "x: " + to_string(tVec_x), Point2f(rect_center.x, rect_center.y - 45), FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
+    putText(image2show, "y: " + to_string(tVec_y), Point2f(rect_center.x, rect_center.y - 30), FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
+    putText(image2show, "z: " + to_string(tVec_z), Point2f(rect_center.x, rect_center.y-15), FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
+    putText(image2show, "x_pitch: " + to_string(x_pitch), Point2f(rect_center.x, rect_center.y), FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
     imshow("Exchange", image2show);
 }
 
 void Rect_Points::run(vector<RotatedRect> exchange_contours, const Mat &src)
 {
     sort_points(exchange_contours);
+    rect_center = crossPointof(bl, tl, tr, br);
+    Solve(Rect_points);
     draw(src);
 }
 
