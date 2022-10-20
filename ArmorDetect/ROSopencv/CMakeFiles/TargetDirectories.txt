@@ -1,3 +1,0 @@
-/home/lvlv/ROSopencv/CMakeFiles/ROSopencv.dir
-/home/lvlv/ROSopencv/CMakeFiles/edit_cache.dir
-/home/lvlv/ROSopencv/CMakeFiles/rebuild_cache.dir
