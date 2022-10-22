@@ -53,7 +53,6 @@ void ArmorDetector::setImg(Mat &src)
  */
 void ArmorDetector::run(Mat &src)
 {
-	KF kf;
 	// firstly, load and set srcImg  首先，载入并处理图像
 	this->setImg(src); // globally srcImg and preprocess it into binBrightImg
 
@@ -73,10 +72,6 @@ void ArmorDetector::run(Mat &src)
 		//将每两个灯条匹配为一个装甲板，如果匹配出来的装甲板是合适的，则压入armors中
 		matchArmors();
 		//cout<<"armor.center.x"<<armors[0].center.x<<endl;
-		for (auto &armor : armors)
-		{
-			kf.center_next.emplace_back(kf.run(armor.center.x, armor.center.y));
-		}
 	}
 }
 

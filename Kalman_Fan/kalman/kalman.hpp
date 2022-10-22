@@ -40,9 +40,10 @@ public:
     float adjust_angle;
     Point2f predict_point;
 
-private:
     // flag of initialization;
     bool is_initialized_;
+
+private:
 
     double dt;
     double next_time;

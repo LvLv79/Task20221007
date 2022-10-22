@@ -8,7 +8,6 @@ int main()
     Filter FL;
     Flow _flow;
     target tr;
-    //KF kf;
     Mat src;
     string path = "../energy.avi";
     VideoCapture cap(path);
@@ -27,8 +26,7 @@ int main()
         _flow.run(src);
         FL.run(src);
         tr.setTarget(src, FL.Rcontours, _flow.Fcontours);
-        // Point2f A=kf.run(tr.target_angle,0,tr.center_R.center,tr.center2R);
-        // cout<<A<<endl;
+
     }
     return 1;
 }

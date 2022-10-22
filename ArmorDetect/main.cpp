@@ -1,7 +1,6 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include"Armor/Armor.hpp"
-#include"kalman/kalman.hpp"
 using namespace std;
 using namespace cv;
 int main()
@@ -9,7 +8,6 @@ int main()
     ArmorDetector ad;
     LightBar lb;
     ArmorBox ab;
-    KF kf;
     string imgpath = "../1920.png";
     string videopath="../test.avi";
     VideoCapture capture(videopath);

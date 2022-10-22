@@ -12,8 +12,8 @@ add_executable(${PROJECT_NAME}
     Armor/lightBar.cpp
     Armor/matchArmors.cpp
     Armor/armorBox.cpp
-    kalman/kalman.cpp
-    kalman/kalman.hpp
+    Compensate/compensate.cpp
+    Compensate/compensate.hpp
 )
 find_package(OpenCV REQUIRED)
 

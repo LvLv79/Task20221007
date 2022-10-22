@@ -2,10 +2,13 @@
 #ifndef TARGET_H
 
 #include <iostream>
+#include <Eigen/Dense>
 #include <opencv2/opencv.hpp>
+#include <opencv2/core/eigen.hpp>
 #include <math.h>
 #include <stdio.h>
 #include"../kalman/kalman.hpp"
+#include"../Compensate/compensate.hpp"
 
 using namespace std;
 using namespace cv;
@@ -16,6 +19,7 @@ class target
 
 public:
     KF kf;
+    Compensate gravity;
     RotatedRect targetArmor;
     RotatedRect center_R;
     
@@ -33,6 +37,11 @@ private:
     float distance;
     float center2R;
     float target_angle;
+    float target_h;
+
+    double tVec_x;
+    double tVec_y;
+    double tVec_z;
     
 
     

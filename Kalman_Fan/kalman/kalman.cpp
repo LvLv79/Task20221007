@@ -116,6 +116,11 @@ int KF::run(float angle, float m_y, Point2f center, double R)
     Eigen::VectorXd x_out = GetX();
     adjust_angle = x_out(0);
     cur_angle = adjust_angle - last_angle;
+    if (abs(cur_angle) > 10)
+    {
+        is_initialized_ = false;
+        return 1;
+    }
     next_angle = adjust_angle + cur_angle;
     last_angle = adjust_angle;
     predict_point = calcPoint(center, R, next_angle);
