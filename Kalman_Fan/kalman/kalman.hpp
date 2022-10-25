@@ -37,7 +37,7 @@ public:
     int run(float angle, float m_y, Point2f center, double R);
 
     vector<Point2f> center_next;
-    float adjust_angle;
+    float next_angle;
     Point2f predict_point;
 
     // flag of initialization;
@@ -50,7 +50,7 @@ private:
     double last_time;
     float last_angle;
     float cur_angle;
-    float next_angle;
+    float adjust_angle;
 
     // state vector
     Eigen::VectorXd x_;

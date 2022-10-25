@@ -16,6 +16,9 @@ add_executable(${PROJECT_NAME}
     Target/target.hpp
     Compensate/compensate.cpp
     Compensate/compensate.hpp
+    Sort/sort.hpp
+    Sort/sort.cpp
+
 )
 find_package(OpenCV REQUIRED)
 

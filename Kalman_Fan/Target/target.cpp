@@ -34,13 +34,14 @@ void target::setTarget(Mat &src, vector<RotatedRect> Rcontours, vector<RotatedRe
         targetArmor = Fcontours[0];
 
         Cam_Init();
-        setImagePoints(targetArmor);
+        sort.find_below(targetArmor,center_R);
+        //setImagePoints(targetArmor);
         setObjectPoints(armor_width, armor_height);
-        calDistance(POINTS_3D, POINTS_2D);
+        calDistance(POINTS_3D, sort.Rect_points);
         calAngle(targetArmor, center_R);
         calR(center_R.center, targetArmor.center);
         kf.run(target_angle, 0, center_R.center, center2R);
-        gravity.run(targetArmor.center, 500, distance, target_h);
+        //gravity.run(targetArmor.center, 500, distance, target_h);
         Point2f A_vertices[4];
         Point2f R_vertices[4]; //定义矩形的4个顶点
         targetArmor.points(A_vertices);
@@ -52,7 +53,11 @@ void target::setTarget(Mat &src, vector<RotatedRect> Rcontours, vector<RotatedRe
         }
         putText(image2show, "target_angle: " + to_string(target_angle), Point2f(15, 15), FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
         putText(image2show, "distance: " + to_string(distance), Point2f(15, 30), FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
-        putText(image2show, "predict_angle: " + to_string(kf.adjust_angle), Point2f(15, 45), FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
+        putText(image2show, "predict_angle: " + to_string(kf.next_angle), Point2f(15, 45), FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
+        putText(image2show, "0 ", sort.Rect_points[0], FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
+        putText(image2show, "1 ", sort.Rect_points[1], FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
+        putText(image2show, "2 ", sort.Rect_points[2], FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
+        putText(image2show, "3 ", sort.Rect_points[3], FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
         circle(image2show, targetArmor.center, 2, Scalar(0, 255, 0), 2, 8, 0);
         circle(image2show, kf.predict_point, 2, Scalar(255, 255, 0), 2, 8, 0);
     }
@@ -124,12 +129,7 @@ void target::calDistance(vector<Point3f> SMALL_ARMOR_POINTS_3D, vector<Point2f> 
     // get euler_angle
     Eigen::Vector3d eular_angles = rotated_matrix.eulerAngles(0, 1, 2);
 
-    distance = 100*(sqrt(transfer_vector.transpose() * transfer_vector));
-    // double tan_pitch = y_pos / sqrt(x_pos * x_pos + z_pos * z_pos);
-    // double tan_yaw = x_pos / z_pos;
-    //  x_pitch = -atanf(tan_pitch) * 180.f / CV_PI;
-    //  y_yaw = atanf(tan_yaw) * 180.f / CV_PI;
-    float distance = sqrt(tVec_x * tVec_x + tVec_y * tVec_y + tVec_z * tVec_z);
+    distance = sqrt(x_pos * x_pos + y_pos * y_pos + z_pos * z_pos);
 }
 
 void target::calR(Point2f A, Point2f B)
@@ -154,4 +154,3 @@ void target::Cam_Init()
 
     return;
 }
-// putText(armorDisplay, "ARMOR NOT FOUND!", Point(100, 50), FONT_HERSHEY_SIMPLEX, 1, Scalar(255, 0, 255), 1, 8, false);//title NOT FOUND 大标题 “没找到装甲板”

@@ -7,12 +7,12 @@
 #include <opencv2/core/eigen.hpp>
 #include <math.h>
 #include <stdio.h>
-#include"../kalman/kalman.hpp"
-#include"../Compensate/compensate.hpp"
+#include "../kalman/kalman.hpp"
+#include "../Compensate/compensate.hpp"
+#include "../Sort/sort.hpp"
 
 using namespace std;
 using namespace cv;
-
 
 class target
 {
@@ -20,12 +20,11 @@ class target
 public:
     KF kf;
     Compensate gravity;
+    Sort sort;
     RotatedRect targetArmor;
     RotatedRect center_R;
-    
 
     void setTarget(Mat &src, vector<RotatedRect> Rcontours, vector<RotatedRect> Fcontours);
-    
 
 private:
     Mat cameraMatrix = cv::Mat::eye(3, 3, CV_64F);
@@ -38,20 +37,21 @@ private:
     float center2R;
     float target_angle;
     float target_h;
+    float tVec_x;
+    float tVec_y;
+    float tVec_z;
 
-    double tVec_x;
-    double tVec_y;
-    double tVec_z;
-    
+    float x_pitch;
+    float y_yaw;
 
-    
+    // total
     void Cam_Init();
     void calAngle(RotatedRect Armor, RotatedRect R);
-    void calR(Point2f A,Point2f B);
+    void calR(Point2f A, Point2f B);
     vector<Point2f> setImagePoints(RotatedRect Armor);
     vector<Point3f> setObjectPoints(double width, double height);
+    vector<Point2f> Rect_points_temp;
     void calDistance(vector<Point3f> SMALL_ARMOR_POINTS_3D, vector<Point2f> targetContour);
-    
 };
 
 #endif
