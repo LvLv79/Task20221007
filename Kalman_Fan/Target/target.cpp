@@ -34,13 +34,13 @@ void target::setTarget(Mat &src, vector<RotatedRect> Rcontours, vector<RotatedRe
         targetArmor = Fcontours[0];
 
         Cam_Init();
-        sort.find_below(targetArmor,center_R);
+        sort.run(targetArmor,center_R);
         //setImagePoints(targetArmor);
         setObjectPoints(armor_width, armor_height);
         calDistance(POINTS_3D, sort.Rect_points);
         calAngle(targetArmor, center_R);
         calR(center_R.center, targetArmor.center);
-        kf.run(target_angle, 0, center_R.center, center2R);
+        //kf.run(target_angle, 0, center_R.center, center2R);
         //gravity.run(targetArmor.center, 500, distance, target_h);
         Point2f A_vertices[4];
         Point2f R_vertices[4]; //定义矩形的4个顶点
@@ -53,11 +53,11 @@ void target::setTarget(Mat &src, vector<RotatedRect> Rcontours, vector<RotatedRe
         }
         putText(image2show, "target_angle: " + to_string(target_angle), Point2f(15, 15), FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
         putText(image2show, "distance: " + to_string(distance), Point2f(15, 30), FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
-        putText(image2show, "predict_angle: " + to_string(kf.next_angle), Point2f(15, 45), FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
-        putText(image2show, "0 ", sort.Rect_points[0], FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
-        putText(image2show, "1 ", sort.Rect_points[1], FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
-        putText(image2show, "2 ", sort.Rect_points[2], FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
-        putText(image2show, "3 ", sort.Rect_points[3], FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
+        //putText(image2show, "predict_angle: " + to_string(kf.next_angle), Point2f(15, 45), FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
+        putText(image2show, "0 ", sort.Rect_points[0], FONT_HERSHEY_PLAIN, 2, Scalar(0, 255, 0), 2, 8, false);
+        putText(image2show, "1 ", sort.Rect_points[1], FONT_HERSHEY_PLAIN, 2, Scalar(0, 255, 0), 2, 8, false);
+        putText(image2show, "2 ", sort.Rect_points[2], FONT_HERSHEY_PLAIN, 2, Scalar(0, 255, 0), 2, 8, false);
+        putText(image2show, "3 ", sort.Rect_points[3], FONT_HERSHEY_PLAIN, 2, Scalar(0, 255, 0), 2, 8, false);
         circle(image2show, targetArmor.center, 2, Scalar(0, 255, 0), 2, 8, 0);
         circle(image2show, kf.predict_point, 2, Scalar(255, 255, 0), 2, 8, 0);
     }
@@ -88,6 +88,7 @@ vector<Point2f> target::setImagePoints(RotatedRect Armor)
 
 vector<Point3f> target::setObjectPoints(double width, double height)
 {
+    POINTS_3D.clear();
     double half_x = width / 2.0;
     double half_y = height / 2.0;
     POINTS_3D.push_back(Point3f(-half_x, half_y, 0));  // tl top left

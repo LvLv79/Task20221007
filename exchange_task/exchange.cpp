@@ -1,3 +1,13 @@
+/**
+ * @file exchange.cpp
+ * @author lvlv (you@domain.com)
+ * @brief 
+ * @version 0.1
+ * @date 2022-10-28
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "exchange.hpp"
 
 int Exchange::findCorner(const Mat &src)

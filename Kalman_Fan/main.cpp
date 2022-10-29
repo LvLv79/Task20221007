@@ -8,14 +8,17 @@ int main()
     Filter FL;
     Flow _flow;
     target tr;
+    Sort sort;
     Mat src;
     string path = "../energy.avi";
     VideoCapture cap(path);
     while (cap.read(src))
     {
         imshow("original", src);
-        if(waitKey(50)==27){
-            if(waitKey(0)==27){
+        if (waitKey(50) == 27)
+        {
+            if (waitKey(0) == 27)
+            {
                 break;
             }
         }
@@ -25,8 +28,8 @@ int main()
         FL.initImage(src);
         _flow.run(src);
         FL.run(src);
+        //sort.run(FL.Rcontours, _flow.Fcontours, src);
         tr.setTarget(src, FL.Rcontours, _flow.Fcontours);
-
     }
     return 1;
 }

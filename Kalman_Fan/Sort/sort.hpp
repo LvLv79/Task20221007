@@ -13,7 +13,7 @@ using namespace cv;
 class Sort
 {
 public:
-    void find_below(RotatedRect Armor, RotatedRect R);
+    void run(RotatedRect Armor, RotatedRect R);
     vector<Point2f> Rect_points;
 
 private:
@@ -23,10 +23,13 @@ private:
     int belowB_index;
     Point2f tl;
     Point2f tr;
-    Point2f bl;
     Point2f br;
+    Point2f bl;
 
     vector<Point2f> temp_Points;
+
+    void clear();
+    void find_below(RotatedRect Armor, RotatedRect R);
 };
 
 #endif
