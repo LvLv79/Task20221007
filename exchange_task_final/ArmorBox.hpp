@@ -25,6 +25,7 @@ public:
 
     float x_pitch;
     float y_yaw;
+    Point2f rect_center;
     
     
 private:
@@ -43,7 +44,7 @@ private:
     float points_y[4];
     float points_sum[4];
     vector<Point> Rect_points;
-    Point2f rect_center;
+    
 
     vector<Point2f> POINTS_2D;
     vector<Point3f> POINTS_3D;

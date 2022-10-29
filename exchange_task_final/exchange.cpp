@@ -26,13 +26,13 @@ int Exchange::findCorner(const Mat &src)
     vector<cv::Vec4i> R_hierarchy;
     Dilate(src_bin);
     findContours(src_bin, contours, R_hierarchy, RETR_TREE, CHAIN_APPROX_NONE);
-    vector<vector<Point>> valid_contours;
     for (auto contour : contours)
     {
         if (!isValidCorner(contour))
         {
             continue; // only end one cycle
         }
+        corner_contours.emplace_back(contour);
         exchange_contours.emplace_back(minAreaRect(contour));
     }
     return static_cast<int>(exchange_contours.size());
@@ -72,6 +72,7 @@ bool Exchange::isValidCorner(const vector<Point> Cornercontour)
 void Exchange::clearAll()
 {
     exchange_contours.clear();
+    corner_contours.clear();
 }
 
 void Exchange::run(const Mat &src)

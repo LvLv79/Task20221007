@@ -12,6 +12,8 @@ add_executable(${PROJECT_NAME}
     init.cpp
     ArmorBox.cpp
     ArmorBox.hpp
+    sort.cpp
+    sort.hpp
 )
 find_package(OpenCV REQUIRED)
 
