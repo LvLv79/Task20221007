@@ -123,6 +123,7 @@ public:
 	int l_index, r_index;		   // the index of left and right light 左右灯条的下标(默认为-1，仅作为ArmorDetector类成员时生效)
 	vector<Point2f> armorVertices; // bl->tl->tr->br     左下 左上 右上 右下
 	Point2f center;				   // center point(crossPoint) of armor 装甲板中心
+	Point2f predict_center;		   // predict_center of armor
 	Rect armorRect;				   // armorRect for roi 装甲板的矩形获取roi用
 	float armorAngle;			   // armor angle(mean of lightBars) 装甲板角度(灯条角度的平均值)
 	Mat armorImg;				   // image of armor set by getArmorImg() from ArmorNumClassifier() 装甲板的图片（透射变换获得）
@@ -192,7 +193,7 @@ public:
 	 */
 	void getTargetInfo(vector<Point2f> &armorVertices, Point2f &centerPoint);
 
-	//void ArmorDetector::showArmors(Mat &image, const vector<ArmorBox> &armors, const ArmorBox &targetArmor);
+	KF kf;
 
 private:
 	Mat srcImg;				 // source image (current frame acquired from camera) 从相机采集的当前的图像帧

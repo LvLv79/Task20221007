@@ -16,6 +16,8 @@ void ArmorDetector::matchArmors(){
 			{
 				armor.l_index = i; //set index of left light
 				armor.r_index = j; //set index of right light
+				kf.run(armor.center.x,armor.center.y);
+				armor.predict_center = kf.next_point;
 				armors.emplace_back(armor); //push into armors
 			}
 		}

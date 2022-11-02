@@ -193,11 +193,13 @@ public:
 
 	//void ArmorDetector::showArmors(Mat &image, const vector<ArmorBox> &armors, const ArmorBox &targetArmor);
 
+	vector<ArmorBox> armors; // all the armors matched from lights 识别到的所有装甲板
+
 private:
 	Mat srcImg;				 // source image (current frame acquired from camera) 从相机采集的当前的图像帧
 	Mat binBrightImg;		 // binary image of srcImg 源图像的二值图
 	vector<LightBar> lights; // all the lightBars find in roiIng 找到的灯条
-	vector<ArmorBox> armors; // all the armors matched from lights 识别到的所有装甲板
+	
 	ArmorBox targetArmor;	 // current target for current frame 当前图像帧对应的目标装甲板
 	ArmorBox lastArmor;		 // previous target for last frame 上一帧图像的目标装甲板
 	DetectorState state;	 // the state of detector updating along with the program running 装甲板检测器的状态，随着装甲板进程的执行而不断更新

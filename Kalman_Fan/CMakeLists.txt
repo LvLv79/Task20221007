@@ -1,28 +1,15 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(HNH CXX)
+project(Kalman_Fan CXX)
 
 set(CMAKE_BUILD_TYPE Debug)
 
+add_subdirectory(detect)
+add_subdirectory(solve)
+
+
 add_executable(${PROJECT_NAME}
     main.cpp
-    kalman/kalman.cpp
-    kalman/kalman.hpp
-    Flow/Flow.cpp
-    Flow/Flow.hpp
-    R/R.cpp
-    R/R.hpp
-    Target/target.cpp
-    Target/target.hpp
-    Compensate/compensate.cpp
-    Compensate/compensate.hpp
-    Sort/sort.hpp
-    Sort/sort.cpp
-
 )
-find_package(OpenCV REQUIRED)
 
-target_include_directories(${PROJECT_NAME} 
-    PUBLIC ${OpenCV_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME}
-    ${OpenCV_LIBS})
+target_link_libraries(${PROJECT_NAME} PUBLIC  Flow R Target)

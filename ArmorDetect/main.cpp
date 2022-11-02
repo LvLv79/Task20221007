@@ -1,6 +1,7 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include"Armor/Armor.hpp"
+#include"Solve/solve.hpp"
 using namespace std;
 using namespace cv;
 int main()
@@ -8,6 +9,7 @@ int main()
     ArmorDetector ad;
     LightBar lb;
     ArmorBox ab;
+    AngleSolver as;
     string imgpath = "../1920.png";
     string videopath="../test.avi";
     VideoCapture capture(videopath);
@@ -19,7 +21,7 @@ int main()
         imshow("opencv_test", frame);
         waitKey(20);
         ad.run(frame);
-        //kf.run(ab.center.x,ab.center.y);
+        as.solveAngles(ad.armors[0].armorVertices,ad.armors[0].center);
         ad.showDebugInfo(1);    
     }
     //Mat img = imread(imgpath,1); 

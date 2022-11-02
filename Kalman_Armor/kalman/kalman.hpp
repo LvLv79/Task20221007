@@ -35,13 +35,18 @@ public:
     void Initialization(Eigen::VectorXd x_in);
 
     
-    Point2f run(float m_x, float m_y);
+    int run(float m_x, float m_y);
 
     vector<Point2f> center_next;
-
+    Point2f next_point;
 private:
     // flag of initialization;
     bool is_initialized_;
+
+    float delta_pointx;
+    float delta_pointy;
+    Point2f adjust_point;
+    Point2f last_point;
 
     double dt;
     double next_time;

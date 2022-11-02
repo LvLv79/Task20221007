@@ -55,7 +55,7 @@ void KF::MeasurementUpdate(const Eigen::VectorXd &z)
     P_ = (I - K * H_) * P_;
 }
 
-Point2f KF::run(float m_x, float m_y)
+int KF::run(float m_x, float m_y)
 {
     if (!IsInitialize())
     {
@@ -90,6 +90,7 @@ Point2f KF::run(float m_x, float m_y)
         R_in << 0.0225, 0.0,
             0.0, 0.0225;
         setR(R_in);
+        last_point = Point2f(m_x,m_y);
         is_initialized_ = true;
     }
     setT();
@@ -107,7 +108,18 @@ Point2f KF::run(float m_x, float m_y)
     // get result
     Eigen::VectorXd x_out = GetX();
     cout << "kalman output x :" << x_out(0) << "y:" << x_out(1) << endl;
-    return Point2f(x_out(0),x_out(1));
+    adjust_point =  Point2f(x_out(0),x_out(1));
+    delta_pointx = adjust_point.x - last_point.x;
+    delta_pointy = adjust_point.y - last_point.y;
+    if (abs(delta_pointx) > 10||abs(delta_pointy)>10)
+    {
+        is_initialized_ = false;
+        cout<<"false"<<endl;
+        return 1;
+    }
+    next_point = Point2f(adjust_point.x+delta_pointx,adjust_point.y+delta_pointy);
+    last_point = adjust_point;
+    return 1;
 }
 
 KF::~KF(){};

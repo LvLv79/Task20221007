@@ -53,8 +53,8 @@ void ArmorDetector::setImg(Mat &src)
  */
 void ArmorDetector::run(Mat &src)
 {
-	KF kf;
-	// firstly, load and set srcImg  首先，载入并处理图像
+	// KF kf;
+	//  firstly, load and set srcImg  首先，载入并处理图像
 	this->setImg(src); // globally srcImg and preprocess it into binBrightImg
 
 	// secondly, reset detector before we findLights or matchArmors
@@ -72,10 +72,11 @@ void ArmorDetector::run(Mat &src)
 		// match each two lights into an armor and if the armor is a suitable one, emplace back it into armors
 		//将每两个灯条匹配为一个装甲板，如果匹配出来的装甲板是合适的，则压入armors中
 		matchArmors();
-		//cout<<"armor.center.x"<<armors[0].center.x<<endl;
+		// cout<<"armor.center.x"<<armors[0].center.x<<endl;
 		for (auto &armor : armors)
 		{
-			kf.center_next.emplace_back(kf.run(armor.center.x, armor.center.y));
+			kf.run(armor.center.x, armor.center.y);
+			kf.center_next.emplace_back(kf.next_point);
 		}
 	}
 }
@@ -125,9 +126,10 @@ void showArmors(Mat &image, const vector<ArmorBox> &armors, const ArmorBox &targ
 		{
 			// draw the center 画中心
 			circle(armorDisplay, armor.center, 2, Scalar(0, 255, 0), 2);
+			circle(armorDisplay, armor.predict_center, 2, Scalar(0, 0, 255), 2);
 			for (size_t i = 0; i < 4; i++)
 			{
-				line(armorDisplay, armor.armorVertices[i], armor.armorVertices[(i + 1) % 4], Scalar(255, 255, 0), 2, 8, 0);
+				line(armorDisplay, armor.armorVertices[i], armor.armorVertices[(i + 1) % 4], Scalar(255, 0, 0), 2, 8, 0);
 			}
 			// display its center point x,y value 显示中点坐标
 			putText(armorDisplay, to_string(int(armor.center.x)), armor.center, FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
@@ -155,7 +157,7 @@ void ArmorDetector::showDebugInfo(bool showArmors_ON)
 {
 	if (showArmors_ON)
 	{
-		//cout<<"armors.center.x"<<armors[0].center.x<<endl;
+		// cout<<"armors.center.x"<<armors[0].center.x<<endl;
 		showArmors(srcImg, armors, targetArmor);
 	}
 }

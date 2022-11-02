@@ -27,8 +27,8 @@ endif()
 add_executable(client client.cpp)
 add_executable(server server.cpp)
 
-target_link_libraries(server rmath singleton assembly1 assembly2 module1 module2 pthread)
-target_link_libraries(client rmath singleton assembly1 assembly2 module1 module2 pthread)
+target_link_libraries(server rmath singleton assembly1 assembly2 module1 module2)
+target_link_libraries(client rmath singleton assembly1 assembly2 module1 module2)
 
 
 
