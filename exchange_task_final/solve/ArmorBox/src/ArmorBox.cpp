@@ -23,6 +23,16 @@ void Rect_Points::Camera_init()
     return;
 }
 
+/**
+ * @brief sum = point.x + point.y（坐标值和）
+ * the max_index of sum[max] is the index of 右下点(br)
+ * the min_index of sum[min] is the index of 左上点(tl)
+ * -------------------------------------------------------------
+ * the other two point can be solve use multiplication cross
+ * 
+ * @param exchange_contours 
+ * @return int 
+ */
 int Rect_Points::sort_points(vector<RotatedRect> exchange_contours)
 {
     if (exchange_contours.size() == 0)
@@ -53,6 +63,13 @@ int Rect_Points::sort_points(vector<RotatedRect> exchange_contours)
     return 1;
 }
 
+/**
+ * @brief 找到坐标值和最大值和最小值对应点的位置（max_index、min_index）
+ * 
+ * @param arr 坐标值和数组
+ * @param count 
+ * @param isMax 最大值or最小值
+ */
 void Rect_Points::getMaxOrMin(float *arr, int count, bool isMax)
 {
     int temp = arr[0];
@@ -85,6 +102,11 @@ void Rect_Points::getMaxOrMin(float *arr, int count, bool isMax)
     }
 }
 
+/**
+ * @brief 使用叉乘判断右上和左下两个点
+ * 分别求出两个待选点与左上点的向量a2b_1和a2b_2,若叉乘得到的结果为负，则A点为右上，B点为左下，反之同理。
+ * @param exchange_contours 角点的旋转矩形
+ */
 void Rect_Points::getOther(vector<RotatedRect> exchange_contours)
 {
     vector<Point2f> tempPoints;
@@ -100,7 +122,7 @@ void Rect_Points::getOther(vector<RotatedRect> exchange_contours)
     Vec3f a2b_1 = {tempPoints[0].x - tl.x, tempPoints[0].y - tl.y, 0};
     Vec3f a2b_2 = {tempPoints[1].x - tl.x, tempPoints[1].y - tl.y, 0};
 
-    Vec3f result = a2b_2.cross(a2b_1);
+    Vec3f result = a2b_2.cross(a2b_1);//multiplication cross
     if (result[2] < 0)
     {
         tr = tempPoints[0];
@@ -115,9 +137,17 @@ void Rect_Points::getOther(vector<RotatedRect> exchange_contours)
     Rect_points.emplace_back(tr);
     Rect_points.emplace_back(br);
     Rect_points.emplace_back(bl);
-    // vector 2 points to judge;
 }
 
+/**
+ * @brief 找到兑换站的中心点
+ * 
+ * @param bl 左下
+ * @param tl 左上
+ * @param tr 右上
+ * @param br 右下
+ * @return const Point2f 
+ */
 const Point2f Rect_Points::crossPointof(const Point2f &bl, const Point2f &tl, const Point2f &tr, const Point2f &br)
 {
     float a1 = tr.y - bl.y;
@@ -140,6 +170,13 @@ const Point2f Rect_Points::crossPointof(const Point2f &bl, const Point2f &tl, co
     }
 }
 
+/**
+ * @brief 设置兑换站在世界坐标系下的点
+ * 
+ * @param width 兑换站的真实宽度
+ * @param height 兑换站的真实长度
+ * @return vector<Point3f> 
+ */
 vector<Point3f> Rect_Points::setObjectPoints(double width, double height)
 {
     double half_x = width / 2.0;
@@ -152,6 +189,12 @@ vector<Point3f> Rect_Points::setObjectPoints(double width, double height)
     return POINTS_3D;
 }
 
+/**
+ * @brief 将Point转换为Point2f传入solvePNP
+ * 
+ * @param Rect_points 
+ * @return vector<Point2f> 
+ */
 vector<Point2f> Rect_Points::setImagePoints(vector<Point> Rect_points)
 {
 
@@ -162,67 +205,16 @@ vector<Point2f> Rect_Points::setImagePoints(vector<Point> Rect_points)
     return POINTS_2D;
 }
 
-void Rect_Points::Solve(vector<Point> Rect_points)
-{
-    Camera_init();
-
-    setImagePoints(Rect_points);
-    setObjectPoints(target_width, target_height);
-
-    Mat _rvec, tVec, _rmat;
-    solvePnP(POINTS_3D, POINTS_2D, cameraMatrix, distCoeffs, _rvec, tVec, false, SOLVEPNP_ITERATIVE);
-    double x_pos = *_rvec.ptr(0);
-    double y_pos = *_rvec.ptr(1);
-    double z_pos = *_rvec.ptr(2);
-    tVec_x = *tVec.ptr(0);
-    tVec_y = *tVec.ptr(1);
-    tVec_z = *tVec.ptr(2);
-
-    Rodrigues(_rvec, _rmat);
-    _rmat.convertTo(_rmat, CV_64FC1);
-    tVec.convertTo(tVec, CV_64FC1);
-
-    double tan_pitch = y_pos / sqrt(x_pos * x_pos + z_pos * z_pos);
-    double tan_yaw = x_pos / z_pos;
-    x_pitch = -atanf(tan_pitch) * 180.f / CV_PI;
-    y_yaw = atanf(tan_yaw) * 180.f / CV_PI;
-    float distance = sqrt(tVec_x * tVec_x + tVec_y * tVec_y + tVec_z * tVec_z);
-    //cout << "y_yaw:" << y_yaw << endl;
-    //cout << "x_pitch:" << x_pitch << endl;
-}
-
-void Rect_Points::draw(const Mat &src)
-{
-    if (src.empty())
-        return;
-    static Mat image2show;
-
-    if (src.type() == CV_8UC1) // 黑白图像
-    {
-        cvtColor(src, image2show, COLOR_GRAY2RGB);
-    }
-    else if (src.type() == CV_8UC3) // RGB 彩色
-    {
-        image2show = src.clone();
-    }
-    line(image2show, tl, tr, Scalar(0, 0, 255), 2);
-    line(image2show, tr, br, Scalar(0, 0, 255), 2);
-    line(image2show, br, bl, Scalar(0, 0, 255), 2);
-    line(image2show, tl, bl, Scalar(0, 0, 255), 2);
-    circle(image2show, rect_center, 2, Scalar(0, 255, 0), 2, 8, 0);
-    putText(image2show, "x: " + to_string(tVec_x), Point2f(rect_center.x, rect_center.y - 45), FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
-    putText(image2show, "y: " + to_string(tVec_y), Point2f(rect_center.x, rect_center.y - 30), FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
-    putText(image2show, "z: " + to_string(tVec_z), Point2f(rect_center.x, rect_center.y-15), FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
-    putText(image2show, "x_pitch: " + to_string(x_pitch), Point2f(rect_center.x, rect_center.y), FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
-    imshow("Exchange", image2show);
-}
-
+/**
+ * @brief 集成跑detector
+ * 
+ * @param exchange_contours 
+ * @param src 
+ */
 void Rect_Points::run(vector<RotatedRect> exchange_contours, const Mat &src)
 {
     sort_points(exchange_contours);
     rect_center = crossPointof(bl, tl, tr, br);
-    Solve(Rect_points);
-    //draw(src);
 }
 
 Rect_Points::~Rect_Points() {}

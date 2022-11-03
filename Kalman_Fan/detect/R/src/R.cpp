@@ -2,9 +2,11 @@
 
 /**
  * @brief find center R
- * 
- * @param src 
- * @return int 
+ * 筛选条件如下：
+    ①r型图形没有子轮廓，没有父轮廓，且至少有一个同级轮廓。
+    ②面积范围与最小外接矩形的长宽比
+ * @param src
+ * @return int
  */
 int Filter::findR(const Mat &src)
 {
@@ -47,7 +49,7 @@ int Filter::findR(const Mat &src)
 }
 
 /**
- * @brief judge whether R is valid
+ * @brief 用长宽比和面积筛选识别到的R轮廓
  *
  * @param Rcontour contour of the R
  * @return flag
@@ -71,6 +73,11 @@ bool Filter::isValidR(const vector<Point> Rcontour)
     return true;
 }
 
+/**
+ * @brief 对图像进行腐蚀膨胀处理
+ * 
+ * @param src 
+ */
 void Filter::RDilate(Mat &src)
 {
     Mat element_dilate_1 = getStructuringElement(MORPH_RECT, Size(4, 4));
@@ -82,14 +89,25 @@ void Filter::RDilate(Mat &src)
     dilate(src, src, element_dilate_1);
 }
 
+/**
+ * @brief 通过通道相减法获得蓝色发光区域轮廓
+ * 
+ * @param src 
+ */
 void Filter::initImage(Mat &src)
 {
     vector<Mat> channels;
-    split(src, channels);                                                         //分离通道
+    split(src, channels);                                                     //分离通道
     threshold(channels.at(0) - channels.at(2), src, 100, 255, THRESH_BINARY); //二值化
     //  把一个3通道图像转换成3个单通道图像
 }
 
+
+/**
+ * @brief 将R矩形画出用于debug
+ * 
+ * @param src 
+ */
 void Filter::showR(const Mat &src)
 {
     if (src.empty())
@@ -115,15 +133,16 @@ void Filter::showR(const Mat &src)
 }
 
 /**
- * @brief clear contours from last frame
- * 
+ * @brief 清除上一帧的轮廓
+ *
  */
 void Filter::clearAll()
 {
     Rcontours.clear();
 }
 
-void Filter::run(Mat&src){
+void Filter::run(Mat &src)
+{
     clearAll();
     findR(src);
 }

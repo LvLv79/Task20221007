@@ -2,7 +2,9 @@
 
 /**
  * @brief find target armor
- * 
+ * 筛选条件如下：
+    ①装甲板没有子轮廓和同级轮廓，一定有父轮廓。
+    ②面积范围与最小外接矩形的长宽比。
  * @param src 
  * @return int 
  */
@@ -43,6 +45,11 @@ int Flow::findFlow(const Mat &src)
     return 1;
 }
 
+/**
+ * @brief 对图像进行膨胀处理
+ * 
+ * @param src 
+ */
 void Flow::flowDilate(Mat &src)
 {
     //膨胀
@@ -56,7 +63,7 @@ void Flow::flowDilate(Mat &src)
 }
 
 /**
- * @brief judge whether contour is a suitable armor
+ * @brief 用长宽比和面积判断轮廓是否合适
  * 
  * @param flow_contours 
  * @return true 
@@ -82,7 +89,7 @@ bool Flow::isValidFlow(const vector<Point> flow_contours)
 }
 
 /** 
- * @brief used to debug for target armor
+ * @brief 输出debug信息
  * 
  * @param src 
  */
@@ -111,7 +118,7 @@ void Flow::showFlow(const Mat &src)
 }
 
 /**
- * @brief clear contours from last frame
+ * @brief 清空上一帧的轮廓
  * 
  */
 void Flow::clear()
@@ -119,9 +126,13 @@ void Flow::clear()
     Fcontours.clear();
 }
 
+/**
+ * @brief 集成跑detetcor
+ * 
+ * @param src 
+ */
 void Flow::run(const Mat &src)
 {
     clear();
     findFlow(src);
-    //showFlow(src);
 }

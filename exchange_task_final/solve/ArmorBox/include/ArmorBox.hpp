@@ -64,8 +64,6 @@ private:
     void getOther(vector<RotatedRect> exchange_contours);
     vector<Point3f> setObjectPoints(double width, double height);
     void Camera_init();
-    void draw(const Mat &src);
-    void Solve(vector<Point> Rect_points);
 };
 
 #endif

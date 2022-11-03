@@ -5,10 +5,6 @@ void KF::Initialization(Eigen::VectorXd x_in)
     x_ = x_in;
 }
 
-/**
- * @brief 获取时间
- * 
- */
 void KF::setT()
 {
     next_time = getTickCount() / getTickFrequency();
@@ -59,51 +55,28 @@ void KF::MeasurementUpdate(const Eigen::VectorXd &z)
     P_ = (I - K * H_) * P_;
 }
 
-/**
- * @brief 根据计算出的角度得到预测坐标点
- * 
- * @param center R标坐标点
- * @param R 装甲板坐标点与R标的距离
- * @param angle 预测得到的角度
- * @return Point2f 
- */
-inline Point2f KF::calcPoint(Point2f center, double R, double angle)
-{
-    double pre_angle = angle / 180 * CV_PI;
-    return center + Point2f((float)cos(pre_angle), (float)-sin(pre_angle)) * (float)R;
-}
-
-/**
- * @brief 集成跑predictor
- * 
- * @param angle 当前帧装甲板与水平线的夹角
- * @param m_y 
- * @param center R标坐标点
- * @param R 装甲板坐标点与R标的距离
- * @return int 
- */
-int KF::run(float angle, float m_y, Point2f center, double R)
+int KF::run(float m_x, float m_y)
 {
     if (!IsInitialize())
     {
         Eigen::VectorXd x_in(4, 1);
-        x_in << angle, m_y, 0.0, 0.0;
+        x_in << m_x, m_y, 0.0, 0.0;
         Initialization(x_in);
 
         // state covariance matrix
         Eigen::MatrixXd P_in(4, 4);
-        P_in << 1.0, 0.0, 0.0, 0.0,
-            0.0, 1.0, 0.0, 0.0,
-            0.0, 0.0, 100.0, 0.0,
-            0.0, 0.0, 0.0, 100.0;
+        P_in << 0.01, 0.0, 0.0, 0.0,
+            0.0, 0.01, 0.0, 0.0,
+            0.0, 0.0, 0.01, 0.0,
+            0.0, 0.0, 0.0, 0.01;
         setP(P_in);
 
         // process covariance matrix
         Eigen::MatrixXd Q_in(4, 4);
-        Q_in << 1.0, 0.0, 0.0, 0.0,
-            0.0, 1.0, 0.0, 0.0,
-            0.0, 0.0, 1.0, 0.0,
-            0.0, 0.0, 0.0, 1.0;
+        Q_in << 0.001, 0.0, 0.0, 0.0,
+            0.0, 0.001, 0.0, 0.0,
+            0.0, 0.0, 0.001, 0.0,
+            0.0, 0.0, 0.0, 0.001;
         setQ(Q_in);
 
         // measurement matrix
@@ -114,10 +87,10 @@ int KF::run(float angle, float m_y, Point2f center, double R)
 
         // R
         Eigen::MatrixXd R_in(2, 2);
-        R_in << 0.0225, 0.0,
-            0.0, 0.0225;
+        R_in << 1, 0.0,
+            0.0, 1;
         setR(R_in);
-        last_angle = angle;
+        last_point = Point2f(m_x,m_y);
         is_initialized_ = true;
         return 1;
     }
@@ -131,21 +104,16 @@ int KF::run(float angle, float m_y, Point2f center, double R)
     Prediction();
 
     Eigen::VectorXd z(2, 1);
-    z << angle, m_y;
+    z << m_x, m_y;
     MeasurementUpdate(z);
     // get result
     Eigen::VectorXd x_out = GetX();
-    adjust_angle = x_out(0);
-    cur_angle = adjust_angle - last_angle;
-    if (abs(cur_angle) > 10)
-    {
-        is_initialized_ = false;
-        cout<<"false"<<endl;
-        return 1;
-    }
-    next_angle = adjust_angle + cur_angle;
-    last_angle = adjust_angle;
-    predict_point = calcPoint(center, R, next_angle);
+    //cout << "kalman output x :" << x_out(0) << "y:" << x_out(1) << endl;
+    adjust_point =  Point2f(x_out(0),x_out(1));
+    delta_pointx = adjust_point.x - last_point.x;
+    delta_pointy = adjust_point.y - last_point.y;
+    next_point = Point2f(adjust_point.x+delta_pointx,adjust_point.y+delta_pointy);
+    last_point = adjust_point;
     return 1;
 }
 

@@ -1,5 +1,12 @@
 #include "sort.hpp"
 
+/**
+ * @brief 找出左下（bl）和右下（br）两个点
+ * 1.先算出该点与中心R的距离，bl和br两个点一定为距离最小
+ * 2.再算出两点和中心点的向量AR、BR,若AR叉乘BR为负数，则A点为bl,B点为br，反之同理。
+ * @param Armor 
+ * @param R 
+ */
 void Sort::find_below(RotatedRect Armor, RotatedRect R)
 {
     Point2f temp[4];
@@ -20,6 +27,12 @@ void Sort::find_below(RotatedRect Armor, RotatedRect R)
     judge_23(R, temp_Points);
 }
 
+/**
+ * @brief 找出距离最小的两个点
+ * 
+ * @param arr 
+ * @param count 
+ */
 void Sort::judge_below(float *arr, int count)
 {
     int temp = arr[0];
@@ -51,8 +64,10 @@ void Sort::judge_below(float *arr, int count)
 }
 
 /**
- * @brief using vector to judge bl and br
- *
+ * @brief 算出两点和中心点的向量AR、BR,若AR叉乘BR为负数，则A点为bl,B点为br，反之同理。
+ * 
+ * @param R R标的旋转矩形
+ * @param temp_Points 待排序的四个点
  */
 void Sort::judge_23(RotatedRect R, vector<Point2f> temp_Points)
 {
@@ -100,12 +115,22 @@ void Sort::judge_23(RotatedRect R, vector<Point2f> temp_Points)
     }
 }
 
+/**
+ * @brief 清除上一帧识别到的点
+ * 
+ */
 void Sort::clear()
 {
     Rect_points.clear();
     temp_Points.clear();
 }
 
+/**
+ * @brief 集成跑detector
+ * 
+ * @param Armor 装甲板的旋转矩形
+ * @param R R标的旋转矩形
+ */
 void Sort::run(RotatedRect Armor, RotatedRect R)
 {
     clear();
@@ -114,6 +139,5 @@ void Sort::run(RotatedRect Armor, RotatedRect R)
     Rect_points.emplace_back(tr);
     Rect_points.emplace_back(br);
     Rect_points.emplace_back(bl);
-    //cout<<"Rect_points :"<<Rect_points<<endl;
 }
 

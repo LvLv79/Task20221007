@@ -1,5 +1,10 @@
 #include "init.hpp"
 
+/**
+ * @brief 图像预处理
+ * 
+ * @param src 
+ */
 void init::initImage(Mat &src)
 {
     vector<Mat> channels;

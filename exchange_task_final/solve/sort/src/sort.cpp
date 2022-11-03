@@ -2,6 +2,11 @@
 
 ////////////////////////////////////////Sort///////////////////////////////////////////////////////////
 
+/**
+ * @brief 求出轮廓点距矩形中心点的距离的最大值的下标
+ * 
+ * @param distance the contours'point to the rect's center
+ */
 void Sort::getMax(vector<float> distance)
 {
     max_index = 0;
@@ -21,8 +26,9 @@ void Sort::getMax(vector<float> distance)
 
 /**
  * @brief pass through all of the contours'points, use distance to find the farthest point and set as corner
- * @param
- *
+ * 遍历轮廓的所有点，找到离兑换站中心点距离最远的点设置为新的角点
+ * @param center 
+ * @param exchange_contours 
  */
 void Sort::find_corner(Point2f center, vector<vector<Point>> exchange_contours)
 {
@@ -40,6 +46,13 @@ void Sort::find_corner(Point2f center, vector<vector<Point>> exchange_contours)
     }
 }
 
+/**
+ * @brief 找到坐标值和最大值和最小值对应点的位置（max_index、min_index）
+ * 
+ * @param arr 坐标值和数组
+ * @param count 
+ * @param isMax 最大值or最小值
+ */
 void Sort::getMaxOrMin(float *arr, int count, bool isMax)
 {
     int temp = arr[0];
@@ -72,6 +85,11 @@ void Sort::getMaxOrMin(float *arr, int count, bool isMax)
     }
 }
 
+/**
+ * @brief 使用叉乘判断右上和左下两个点
+ * 分别求出两个待选点与左上点的向量a2b_1和a2b_2,若叉乘得到的结果为负，则A点为右上，B点为左下，反之同理。
+ * @param exchange_contours 角点的旋转矩形
+ */
 void Sort::getOther(vector<Point2f> unsorted_corners)
 {
     vector<Point2f> tempPoints;
@@ -105,6 +123,16 @@ void Sort::getOther(vector<Point2f> unsorted_corners)
     // vector 2 points to judge;
 }
 
+/**
+ * @brief sum = point.x + point.y
+ * the max_index of sum[max] is the index of below-right(br)
+ * the min_index of sum[min] is the index of top-left(tl)
+ * -------------------------------------------------------------
+ * the other two point can be solve use multiplication cross
+ * 
+ * @param unsorted_corners 
+ * @return int 
+ */
 int Sort::sort_points(vector<Point2f> unsorted_corners)
 {
     if (unsorted_corners.size() == 0)
@@ -154,6 +182,13 @@ void Sort::Camera_init()
     return;
 }
 
+/**
+ * @brief set the 3D-points of the world coordinate
+ * 
+ * @param width exchange-rect's real width
+ * @param height exchange-rect's real height
+ * @return vector<Point3f> 
+ */
 vector<Point3f> Sort::setObjectPoints(double width, double height)
 {
     POINTS_3D.clear();
@@ -167,6 +202,11 @@ vector<Point3f> Sort::setObjectPoints(double width, double height)
     return POINTS_3D;
 }
 
+/**
+ * @brief 解算出兑换站的pitch和yaw消息
+ * 
+ * @param Rect_points 
+ */
 void Sort::Solve(vector<Point2f> Corners)
 {
     Camera_init();
@@ -197,6 +237,12 @@ void Sort::Solve(vector<Point2f> Corners)
 
 ////////////////////////////////////////Draw/////////////////////////////////////////////////
 
+/**
+ * @brief show the image for debug
+ * 
+ * @param src 
+ * @param center 
+ */
 void Sort::draw(Mat src, Point2f center)
 {
     line(src, tl, tr, Scalar(0, 0, 255), 2);
@@ -213,6 +259,13 @@ void Sort::draw(Mat src, Point2f center)
     imshow("unsorted_corners", src);
 }
 
+/**
+ * @brief 集成跑detector
+ * 
+ * @param exchange_contours 
+ * @param src 
+ * @param center
+ */
 void Sort::run(Point2f center, vector<vector<Point>> exchange_contours, Mat src)
 {
     unsorted_corners.clear();

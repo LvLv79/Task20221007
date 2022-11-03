@@ -48,7 +48,6 @@ private:
     void Cam_Init();
     void calAngle(RotatedRect Armor, RotatedRect R);
     void calR(Point2f A, Point2f B);
-    vector<Point2f> setImagePoints(RotatedRect Armor);
     vector<Point3f> setObjectPoints(double width, double height);
     vector<Point2f> Rect_points_temp;
     void calDistance(vector<Point3f> SMALL_ARMOR_POINTS_3D, vector<Point2f> targetContour);

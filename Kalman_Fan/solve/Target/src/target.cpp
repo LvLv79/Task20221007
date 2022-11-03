@@ -1,11 +1,10 @@
 #include "target.hpp"
 
 /**
- * @brief show image
- *
+ * @brief 显示debug信息
  * @param src
- * @param Rcontours center_R
- * @param Fcontours TargetArmor
+ * @param Rcontours R标
+ * @param Fcontours 目标装甲板
  */
 void target::setTarget(Mat &src, vector<RotatedRect> Rcontours, vector<RotatedRect> Fcontours)
 {
@@ -35,7 +34,6 @@ void target::setTarget(Mat &src, vector<RotatedRect> Rcontours, vector<RotatedRe
 
         Cam_Init();
         sort.run(targetArmor, center_R);
-        // setImagePoints(targetArmor);
         setObjectPoints(armor_width, armor_height);
         calDistance(POINTS_3D, sort.Rect_points);
         calAngle(targetArmor, center_R);
@@ -56,14 +54,14 @@ void target::setTarget(Mat &src, vector<RotatedRect> Rcontours, vector<RotatedRe
         putText(image2show, "predict_angle: " + to_string(kf.next_angle), Point2f(15, 45), FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
         putText(image2show, "target_angle: " + to_string((gravity.compensate_angle)/10), Point2f(15, 60), FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
         // putText(image2show, "predict_point: " + to_string(kf.predict_point.x)+"  "+to_string(kf.predict_point.y), Point2f(15, 60), FONT_HERSHEY_PLAIN, 1, Scalar(255, 0, 255), 1, 8, false);
-        /*putText(image2show, "0 ", sort.Rect_points[0], FONT_HERSHEY_PLAIN, 2, Scalar(0, 255, 0), 2, 8, false);
+        putText(image2show, "0 ", sort.Rect_points[0], FONT_HERSHEY_PLAIN, 2, Scalar(0, 255, 0), 2, 8, false);
         putText(image2show, "1 ", sort.Rect_points[1], FONT_HERSHEY_PLAIN, 2, Scalar(0, 255, 0), 2, 8, false);
         putText(image2show, "2 ", sort.Rect_points[2], FONT_HERSHEY_PLAIN, 2, Scalar(0, 255, 0), 2, 8, false);
-        putText(image2show, "3 ", sort.Rect_points[3], FONT_HERSHEY_PLAIN, 2, Scalar(0, 255, 0), 2, 8, false);*/
+        putText(image2show, "3 ", sort.Rect_points[3], FONT_HERSHEY_PLAIN, 2, Scalar(0, 255, 0), 2, 8, false);
         circle(image2show, targetArmor.center, 2, Scalar(0, 255, 0), 2, 8, 0);
         if (kf.cur_angle < 10 && abs(targetArmor.center.x - kf.predict_point.x) < 10 && abs(targetArmor.center.y - kf.predict_point.y) < 10)
         {
-            circle(image2show, kf.predict_point, 2, Scalar(255, 255, 0), 2, 8, 0);
+            circle(image2show, kf.predict_point, 2, Scalar(0, 0, 255), 2, 8, 0);
         }
         // cout << "target_center: " << targetArmor.center << endl;
         // cout << "predict_point: " << kf.predict_point << endl;
@@ -71,8 +69,9 @@ void target::setTarget(Mat &src, vector<RotatedRect> Rcontours, vector<RotatedRe
     }
     imshow("info", image2show);
 }
+
 /**
- * @brief calculate angles between Armor_center and center_R
+ * @brief 计算装甲板坐标点与R标的夹角
  *
  * @param Armor targetArmor
  * @param R center_R
@@ -82,18 +81,13 @@ void target::calAngle(RotatedRect Armor, RotatedRect R)
     target_angle = static_cast<float>(180 / 3.14 * atan2((-1 * (Armor.center.y - R.center.y)), (Armor.center.x - R.center.x)));
 }
 
-vector<Point2f> target::setImagePoints(RotatedRect Armor)
-{
-    Point2f armorVertices[4];
-    Armor.points(armorVertices);
-
-    POINTS_2D.emplace_back(armorVertices[1]);
-    POINTS_2D.emplace_back(armorVertices[2]);
-    POINTS_2D.emplace_back(armorVertices[3]);
-    POINTS_2D.emplace_back(armorVertices[0]);
-    return POINTS_2D;
-}
-
+/**
+ * @brief 设置传入点的世界坐标系
+ * 
+ * @param width 装甲板真实宽度
+ * @param height 装甲板真实长度
+ * @return vector<Point3f> 
+ */
 vector<Point3f> target::setObjectPoints(double width, double height)
 {
     POINTS_3D.clear();
@@ -108,10 +102,10 @@ vector<Point3f> target::setObjectPoints(double width, double height)
 }
 
 /**
- * @brief calculate distance between camera and target
+ * @brief 计算装甲板到相机的距离
  *
- * @param SMALL_ARMOR_POINTS_3D coordinate in world
- * @param targetContour coordinate in image
+ * @param SMALL_ARMOR_POINTS_3D 世界坐标系的点
+ * @param targetContour 图像坐标系的点
  */
 void target::calDistance(vector<Point3f> SMALL_ARMOR_POINTS_3D, vector<Point2f> targetContour)
 {
@@ -142,6 +136,12 @@ void target::calDistance(vector<Point3f> SMALL_ARMOR_POINTS_3D, vector<Point2f> 
     distance = sqrt(x_pos * x_pos + y_pos * y_pos + z_pos * z_pos);
 }
 
+/**
+ * @brief 计算装甲板到R标的距离
+ * 
+ * @param A 
+ * @param B 
+ */
 void target::calR(Point2f A, Point2f B)
 {
     center2R = sqrt(abs(A.x - B.x) * abs(A.x - B.x) + abs(A.y - B.y) * abs(A.y - B.y));

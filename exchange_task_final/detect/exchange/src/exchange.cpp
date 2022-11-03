@@ -10,6 +10,12 @@
  */
 #include "exchange.hpp"
 
+/**
+ * @brief 识别角点轮廓
+ * 
+ * @param src srcimg
+ * @return int 
+ */
 int Exchange::findCorner(const Mat &src)
 {
     if (src.empty())
@@ -38,6 +44,11 @@ int Exchange::findCorner(const Mat &src)
     return static_cast<int>(exchange_contours.size());
 }
 
+/**
+ * @brief 对图像进行腐蚀膨胀操作
+ * 
+ * @param src 
+ */
 void Exchange::Dilate(Mat &src)
 {
     //膨胀
@@ -50,6 +61,13 @@ void Exchange::Dilate(Mat &src)
     morphologyEx(src, src, MORPH_CLOSE, element);
 }
 
+/**
+ * @brief 用长宽比和轮廓面积判断轮廓是否合适
+ * 
+ * @param Cornercontour 
+ * @return true 
+ * @return false 
+ */
 bool Exchange::isValidCorner(const vector<Point> Cornercontour)
 {
     float cur_area = contourArea(Cornercontour);
@@ -69,12 +87,21 @@ bool Exchange::isValidCorner(const vector<Point> Cornercontour)
     return true;
 }
 
+/**
+ * @brief 清除上一帧的轮廓
+ * 
+ */
 void Exchange::clearAll()
 {
     exchange_contours.clear();
     corner_contours.clear();
 }
 
+/**
+ * @brief 集成跑detector
+ * 
+ * @param src 
+ */
 void Exchange::run(const Mat &src)
 {
     clearAll();
